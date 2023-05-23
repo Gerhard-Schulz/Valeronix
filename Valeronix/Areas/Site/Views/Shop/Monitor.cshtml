@@ -1,0 +1,28 @@
+﻿@model IEnumerable<MonitorMagaz>
+
+@{
+    ViewData["Title"] = "Мониторы";
+}
+
+<h1 class="text-primary text-center">Мониторы</h1>
+<div class="row pb-3">
+    @foreach (var monitor in Model)
+    {
+        <div class="col-3">
+            <div class="row p-2">
+                <div class="p-1 col-12">
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                        <img src="~/images/devices/@monitor.ModelOfDevice.PhotoUrl" class="cardcard-img-top rounded" />
+                        <div class="card-body p-0">
+                            <div class="pl-1">
+                                <h3 class="text-center text-black mt-2">@monitor.ModelOfDevice.Creator.Name @monitor.ModelOfDevice.Name</h3>
+                                <div class="text-center text-muted"><span class="text-primary">Тип:</span> @monitor.TypeOfMonitor</div>
+                                <h5 class="text-center text-dark">Цена: @monitor.Price руб.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

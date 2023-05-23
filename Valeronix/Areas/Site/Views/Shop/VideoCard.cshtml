@@ -1,0 +1,26 @@
+﻿@model IEnumerable<VideoCard>
+
+@{
+    ViewData["Title"] = "Видеокарты";
+}
+
+<h1 class="text-primary text-center">Видеокарты</h1>
+<div class="row pb-3">
+    @foreach (var videoCard in Model)
+    {
+        <div class="col-3">
+            <div class="row p-2">
+                <div class="p-1 col-12">
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                        <div class="card-body p-0">
+                            <div class="pl-1">
+                                <h3 class="text-center text-black mt-2">@videoCard.Creator.Name @videoCard.Name</h3>
+                                <h5 class="text-center text-dark">Цена: @videoCard.Price руб.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<VideoCard>
+
+@{
+    ViewData["Title"] = "Видеокарты";
+}
+
+<div class="row mt-3">
+    <div class="col-4">
+        <h2 class="text-center text-primary mt-4">Видеокарты <a asp-controller="VideoCard" asp-action="Add" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Новая видеокарта</a></h2>
+    </div>
+    <div class="col-8">
+        <table class="table table-hover w-100 mt-3 pb-2 cell-centered">
+            <thead class="table-primary noselect">
+                <tr>
+                    <th>Производитель</th>
+                    <th>Модель</th>
+                    <th>Цена</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="cell-centered mt-5">
+                @foreach (var videoCard in Model)
+                {
+                    <tr>
+                        <td>
+                            <h5>@videoCard.Creator.Name</h5>
+                        </td>
+                        <td>
+                            <h5>@videoCard.Name</h5>
+                        </td>
+                        <td>
+                            <h5>@videoCard.Price руб.</h5>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm w-100" role="group">
+                                <a asp-controller="VideoCard" asp-action="Edit" asp-route-id="@videoCard.Id" class="btn btn-sm btn-outline-warning"><i class="bi bi-pen"></i> Изменить</a>
+                                <a asp-controller="VideoCard" asp-action="Delete" asp-route-id="@videoCard.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3"></i> Удалить</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

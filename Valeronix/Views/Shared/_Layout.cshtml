@@ -1,0 +1,150 @@
+﻿@using Valeronix.Areas.Identity;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Valeronix</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Valeronix.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="Site" asp-controller="Home" asp-action="Index">Valeronix</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @if (User.IsInRole(Roles.Admin))
+                {
+                    <div class="collapse navbar-collapse" id="navbar">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="Site" asp-controller="Home" asp-action="Index">
+                                    Главная
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Site" asp-controller="Creator" asp-action="Index">Производители</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Site" asp-controller="ModelOfDevice" asp-action="Index">Модели устройств</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Комплектующие</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="Site" asp-controller="VideoCard" asp-action="Index">Видеокарты</a>
+                                    <a class="dropdown-item" asp-area="Site" asp-controller="Processor" asp-action="Index">Процессоры</a>
+                                    <a class="dropdown-item" asp-area="Site" asp-controller="OS" asp-action="Index">Операционные системы</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Товары</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="Site" asp-controller="Mouse" asp-action="Index">Мышки</a>
+                                    <a class="dropdown-item" asp-area="Site" asp-controller="Keyboard" asp-action="Index">Клавиатуры</a>
+                                    <a class="dropdown-item" asp-area="Site" asp-controller="Monitor" asp-action="Index">Мониторы</a>
+                                    <a class="dropdown-item" asp-area="Site" asp-controller="Computer" asp-action="Index">Компьютеры</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <canvas style="height: 175px;" id="canvas"></canvas>
+    <footer class="footer text-light">Made by <a href="https://vk.com/valer1yaaa" class="link-primary">Valeriya Garifullina</a></footer>
+    <script src="https://jhancock532.github.io/twgl.min.js"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+        attribute vec4 position;
+
+        void main() {
+          gl_Position = vec4( position );
+        }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        #ifdef GL_FRAGMENT_PRECISION_HIGH
+        precision highp float;
+        #else
+        precision mediump float;
+        #endif
+
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+
+
+        //Taken from Book of Shaders
+        //https://thebookofshaders.com/edit.php#11/2d-gnoise.frag
+        vec2 random2(vec2 st){
+          st = vec2( dot(st,vec2(127.1,311.7)),
+                     dot(st,vec2(269.5,183.3)) );
+          return -1.0 + 2.0*fract(sin(st)*43758.5453123);
+        }
+
+        // Gradient Noise by Inigo Quilez - iq/2013
+        // https://www.shadertoy.com/view/XdXGW8
+        float noise(vec2 st) {
+            vec2 i = floor(st);
+            vec2 f = fract(st);
+
+            vec2 u = f*f*(3.0-2.0*f);
+
+            return mix( mix( dot( random2(i + vec2(0.0,0.0) ), f - vec2(0.0,0.0) ),
+                             dot( random2(i + vec2(1.0,0.0) ), f - vec2(1.0,0.0) ), u.x),
+                        mix( dot( random2(i + vec2(0.0,1.0) ), f - vec2(0.0,1.0) ),
+                             dot( random2(i + vec2(1.0,1.0) ), f - vec2(1.0,1.0) ), u.x), u.y);
+        }
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+
+          float waveOffset = 0.3;
+          float waveCenter = 1.;
+          float waveFocus = 0.25;
+          float waveSpeed = 2.; //Lower faster.
+
+          float wMin = waveCenter - waveFocus;
+          float wMax = waveCenter + waveFocus;
+
+          //Smoothly extend on the x axis without stretching the noise
+          uv.x *= u_resolution.x/u_resolution.y;
+          uv.x += 1787.74328; //random starting seed
+          uv.y *= 2.;
+
+          float rn = noise( vec2(uv.x, u_time / waveSpeed));
+          float ry = uv.y - rn;
+          float r = smoothstep(wMin, wMax, ry);
+
+          float bn = noise( vec2(uv.x, u_time / waveSpeed - waveOffset));
+          float by = uv.y - bn;
+          float b = smoothstep(wMin, wMax, by);
+
+          float gn = noise( vec2(uv.x, u_time / waveSpeed + waveOffset));
+          float gy = uv.y - gn;
+          float g = smoothstep(wMin, wMax, gy);
+
+          //float a = (r + g + b) / 3.0;
+
+          gl_FragColor = vec4(r, b, g, 1.0);
+        }
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

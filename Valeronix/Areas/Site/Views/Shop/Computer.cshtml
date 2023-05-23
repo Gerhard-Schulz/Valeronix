@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Computer>
+
+@{
+    ViewData["Title"] = "ПК";
+}
+
+<h1 class="text-primary text-center">Компьютеры</h1>
+<div class="row pb-3">
+    @foreach (var computer in Model)
+    {
+        <div class="col-3">
+            <div class="row p-2">
+                <div class="p-1 col-12">
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                        <img src="~/images/devices/@computer.ModelOfDevice.PhotoUrl" class="cardcard-img-top rounded" />
+                        <div class="card-body p-0">
+                            <div class="pl-1">
+                                <h3 class="text-center text-black mt-2">@computer.ModelOfDevice.Creator.Name @computer.ModelOfDevice.Name</h3>
+                                <div class="text-center text-muted"><span class="text-primary">Адаптер:</span> @computer.Adapter</div>
+                                <div class="text-center text-muted"><span class="text-primary">Память:</span> @computer.MemoryType @computer.MemoryVolume</div>
+                                <div class="text-center text-muted"><span class="text-primary">ОЗУ:</span> @computer.OzuMemory</div>
+                                <div class="text-center text-muted"><span class="text-primary">ОС:</span> @computer.OS.Creator.Name @computer.OS.Name</div>
+                                <div class="text-center text-muted"><span class="text-primary">Процессор:</span> @computer.Processor.Creator.Name @computer.Processor.Name</div>
+                                <div class="text-center text-muted"><span class="text-primary">Видеокарта:</span> @computer.VideoCard.Creator.Name @computer.VideoCard.Name</div>
+                                <h5 class="text-center text-dark">Цена: @computer.Price руб.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

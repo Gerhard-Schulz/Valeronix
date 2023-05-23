@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Processor>
+
+@{
+    ViewData["Title"] = "Процессоры";
+}
+
+<div class="row mt-3">
+    <div class="col-3">
+        <h2 class="text-center text-primary mt-4">Процессоры <a asp-controller="Processor" asp-action="Add" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Новый процессор</a></h2>
+    </div>
+    <div class="col-9">
+        <table class="table table-hover w-100 mt-3 pb-2 cell-centered">
+            <thead class="table-primary noselect">
+                <tr>
+                    <th>Производитель</th>
+                    <th>Модель</th>
+                    <th>Кол-во ядер</th>
+                    <th>Кол-во потоков</th>
+                    <th>Цена</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="cell-centered mt-5">
+                @foreach (var processor in Model)
+                {
+                    <tr>
+                        <td>
+                            <h5>@processor.Creator.Name</h5>
+                        </td>
+                        <td>
+                            <h5>@processor.Name</h5>
+                        </td>
+                        <td>
+                            <h5>@processor.Yadr</h5>
+                        </td>
+                        <td>
+                            <h5>@processor.Potok</h5>
+                        </td>
+                        <td>
+                            <h5>@processor.Price руб.</h5>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm w-100" role="group">
+                                <a asp-controller="Processor" asp-action="Edit" asp-route-id="@processor.Id" class="btn btn-sm btn-outline-warning"><i class="bi bi-pen"></i> Изменить</a>
+                                <a asp-controller="Processor" asp-action="Delete" asp-route-id="@processor.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3"></i> Удалить</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

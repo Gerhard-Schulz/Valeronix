@@ -1,0 +1,35 @@
+﻿@model IEnumerable<OS>
+
+@{
+    ViewData["Title"] = "Операционные системы";
+}
+
+<div class="row mt-3">
+    <div class="col-4 text-center">
+        <h2 class="text-primary mt-4">Операционные системы</h2>
+        <a asp-controller="OS" asp-action="Add" class="btn btn-sm btn-outline-primary mt-3 w-50"><i class="bi bi-plus-lg"></i> Новая ОС</a>
+    </div>
+    <div class="col-8">
+        <table class="table table-hover w-100 mt-3 pb-2 cell-centered">
+            <tbody class="cell-centered mt-5">
+                @foreach (var os in Model)
+                {
+                    <tr>
+                        <td>
+                            <h5>@os.Creator.Name</h5>
+                        </td>
+                        <td>
+                            <h5>@os.Name</h5>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm w-100" role="group">
+                                <a asp-controller="OS" asp-action="Edit" asp-route-id="@os.Id" class="btn btn-sm btn-outline-warning"><i class="bi bi-pen"></i> Изменить</a>
+                                <a asp-controller="OS" asp-action="Delete" asp-route-id="@os.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3"></i> Удалить</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

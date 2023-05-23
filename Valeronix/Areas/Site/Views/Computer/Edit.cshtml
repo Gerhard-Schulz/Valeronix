@@ -1,0 +1,122 @@
+﻿@model Computer
+
+@{
+    ViewData["Title"] = "Изменение";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="card border-primary mb-2 mt-5">
+        <div class="card-header"><h2 class="text-primary text-center">Изменение информации о компьютере</h2></div>
+        <div class="card-body">
+            <form method="post">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="ModelOfDeviceId"></label>
+                            <select asp-for="ModelOfDeviceId" asp-items="ViewBag.ModelOfDeviceList" class="form-select">
+                                <option selected disabled></option>
+                            </select>
+                            <span asp-validation-for="ModelOfDeviceId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="p-1" for="floatingInput" asp-for="Adapter"></label>
+                            <input asp-for="Adapter" class="form-control" />
+                            <span asp-validation-for="Adapter" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="p-1" for="floatingInput" asp-for="MemoryType"></label>
+                            <select asp-for="MemoryType" class="form-select">
+                                <option selected disabled></option>
+                                <option>SSD</option>
+                                <option>HDD</option>
+                            </select>
+                            <span asp-validation-for="MemoryType" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="p-1" for="floatingInput" asp-for="MemoryVolume"></label>
+                            <select asp-for="MemoryVolume" class="form-select">
+                                <option selected disabled></option>
+                                <option>128гб</option>
+                                <option>256гб</option>
+                                <option>512гб</option>
+                                <option>1тб</option>
+                                <option>2тб</option>
+                            </select>
+                            <span asp-validation-for="MemoryVolume" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="p-1" for="floatingInput" asp-for="OzuMemory"></label>
+                            <select asp-for="OzuMemory" class="form-select">
+                                <option selected disabled></option>
+                                <option>4гб</option>
+                                <option>8гб</option>
+                                <option>16гб</option>
+                                <option>32гб</option>
+                                <option>64гб</option>
+                            </select>
+                            <span asp-validation-for="OzuMemory" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="OSId"></label>
+                            <select asp-for="OSId" asp-items="ViewBag.OSList" class="form-select">
+                                <option selected disabled></option>
+                            </select>
+                            <span asp-validation-for="OSId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="ProcessorId"></label>
+                            <select asp-for="ProcessorId" asp-items="ViewBag.ProcessorList" class="form-select">
+                                <option selected disabled></option>
+                            </select>
+                            <span asp-validation-for="ProcessorId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="VideoCardId"></label>
+                            <select asp-for="VideoCardId" asp-items="ViewBag.VideoCardList" class="form-select">
+                                <option selected disabled></option>
+                            </select>
+                            <span asp-validation-for="VideoCardId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="p-1" for="floatingInput" asp-for="Price"></label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-sm w-100" role="group">
+                    <a asp-controller="Computer" asp-action="Index" class="btn btn-sm btn-primary w-100">Вернуться к списку</a>
+                    <button type="submit" class="btn btn-sm btn-warning w-100">Изменить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial"></partial>
+    }
+}

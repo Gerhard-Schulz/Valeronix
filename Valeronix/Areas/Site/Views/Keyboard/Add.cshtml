@@ -1,0 +1,51 @@
+﻿@model Keyboard
+
+@{
+    ViewData["Title"] = "Добавление";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="card border-primary mb-2 mt-5">
+        <div class="card-header"><h2 class="text-primary text-center">Новая клавиатура</h2></div>
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-2">
+                    <label class="p-1" for="floatingInput" asp-for="ModelOfDeviceId"></label>
+                    <select asp-for="ModelOfDeviceId" asp-items="ViewBag.ModelOfDeviceList" class="form-select">
+                        <option selected disabled></option>
+                    </select>
+                    <span asp-validation-for="ModelOfDeviceId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="p-1" for="floatingInput" asp-for="TypeOfKeyboard"></label>
+                    <select asp-for="TypeOfKeyboard" class="form-select">
+                        <option selected disabled></option>
+                        <option>мембранная</option>
+                        <option>механическая</option>
+                        <option>мембранная, частично механическая</option>
+                        <option>ножничная</option>
+                        <option>оптомеханическая</option>
+                        <option>аналоговая оптическая</option>
+                        <option>плунжерная</option>
+                    </select>
+                    <span asp-validation-for="TypeOfKeyboard" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="p-1" for="floatingInput" asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="btn-group btn-group-sm w-100" role="group">
+                    <a asp-controller="Keyboard" asp-action="Index" class="btn btn-sm btn-primary w-100">Вернуться к списку</a>
+                    <button type="submit" class="btn btn-sm btn-success w-100">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial"></partial>
+    }
+}

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Processor>
+
+@{
+    ViewData["Title"] = "Процессоры";
+}
+
+<h1 class="text-primary text-center">Процессоры</h1>
+<div class="row pb-3">
+    @foreach (var processor in Model)
+    {
+        <div class="col-3">
+            <div class="row p-2">
+                <div class="p-1 col-12">
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                        <div class="card-body p-0">
+                            <div class="pl-1">
+                                <h3 class="text-center text-black mt-2">@processor.Creator.Name @processor.Name</h3>
+                                <div class="text-center text-muted"><span class="text-primary">Кол-во ядер:</span> @processor.Yadr</div>
+                                <div class="text-center text-muted"><span class="text-primary">Кол-во потоков:</span> @processor.Potok</div>
+                                <h5 class="text-center text-dark">Цена: @processor.Price руб.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
