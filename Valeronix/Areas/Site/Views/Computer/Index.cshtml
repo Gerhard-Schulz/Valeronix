@@ -4,53 +4,34 @@
     ViewData["Title"] = "Компьютеры";
 }
 
-<div class="text-center mt-3">
-    <h2 class="text-primary">Компьютеры <a asp-controller="Computer" asp-action="Add" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Новый ПК</a></h2>
+<div class="row mt-3 pb-2">
+    <div class="col-3 text-center">
+        <h2 class="text-center text-primary mt-4">Компьютеры <a asp-controller="Computer" asp-action="Add" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Новый ПК</a></h2>
+    </div>
+    <div class="col-9">Здесь вставляй фильтр!</div>
 </div>
 <table class="table table-hover w-100 mt-3 pb-2 cell-centered">
-    <thead class="table-primary noselect">
-        <tr>
-            <th>Модель</th>
-            <th>Адаптер</th>
-            <th>Память</th>
-            <th>Оперативная память</th>
-            <th>Операционная система</th>
-            <th>Процессор</th>
-            <th>Видеокарта</th>
-            <th>Цена</th>
-            <th></th>
-        </tr>
-    </thead>
     <tbody class="cell-centered mt-5">
         @foreach (var computer in Model)
         {
-            <tr>
+            <tr style="font-size: 1.1rem">
                 <td>
                     <h5>@computer.ModelOfDevice.Creator.Name @computer.ModelOfDevice.Name</h5>
                 </td>
-                <td>
-                    <h5>@computer.Adapter</h5>
+                <td class="w-25">
+                    <img src="~/images/devices/@computer.ModelOfDevice.PhotoUrl" class="w-100" />
+                </td>
+                <td class="text-start text-primary">
+                    <div><span class="text-black">Адаптер:</span> @computer.Adapter</div>
+                    <div><span class="text-black">Память:</span> @computer.MemoryType @computer.MemoryVolume</div>
+                    <div><span class="text-black">ОЗУ:</span> @computer.OzuMemory</div>
+                    <div><span class="text-black">ОС:</span> @computer.OS.Creator.Name @computer.OS.Name</div>
+                    <div><span class="text-black">Процессор:</span> @computer.Processor.Creator.Name @computer.Processor.Name</div>
+                    <div><span class="text-black">Видеокарта:</span> @computer.VideoCard.Creator.Name @computer.VideoCard.Name</div>
                 </td>
                 <td>
-                    <h5>@computer.MemoryType @computer.MemoryVolume</h5>
-                </td>
-                <td>
-                    <h5>@computer.OzuMemory</h5>
-                </td>
-                <td>
-                    <h5>@computer.OS.Creator.Name @computer.OS.Name</h5>
-                </td>
-                <td>
-                    <h5>@computer.Processor.Creator.Name @computer.Processor.Name</h5>
-                </td>
-                <td>
-                    <h5>@computer.VideoCard.Creator.Name @computer.VideoCard.Name</h5>
-                </td>
-                <td>
-                    <h5>@computer.Price руб.</h5>
-                </td>
-                <td>
-                    <div class="btn-group btn-group-sm w-100" role="group">
+                    <h4 class="text-primary">@computer.Price руб.</h4>
+                    <div class="btn-group btn-group-sm w-100 mt-3" role="group">
                         <a asp-controller="Computer" asp-action="Edit" asp-route-id="@computer.Id" class="btn btn-sm btn-outline-warning"><i class="bi bi-pen"></i> Изменить</a>
                         <a asp-controller="Computer" asp-action="Delete" asp-route-id="@computer.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3"></i> Удалить</a>
                     </div>
