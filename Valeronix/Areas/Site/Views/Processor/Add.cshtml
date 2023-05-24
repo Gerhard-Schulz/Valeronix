@@ -9,32 +9,46 @@
         <div class="card-header"><h2 class="text-primary text-center">Новый процессор</h2></div>
         <div class="card-body">
             <form method="post">
-                <div class="mb-2">
-                    <label class="p-1" for="floatingInput" asp-for="CreatorId"></label>
-                    <select asp-for="CreatorId" asp-items="ViewBag.CreatorList" class="form-select">
-                        <option selected disabled></option>
-                    </select>
-                    <span asp-validation-for="CreatorId" class="text-danger"></span>
+                 <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="CreatorId"></label>
+                            <select asp-for="CreatorId" asp-items="ViewBag.CreatorList" class="form-select">
+                                <option selected disabled></option>
+                            </select>
+                            <span asp-validation-for="CreatorId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="Name"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-2">
-                    <label class="p-1" for="floatingInput" asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="mb-2">
-                    <label class="p-1" for="floatingInput" asp-for="Yadr"></label>
-                    <input type="number" asp-for="Yadr" class="form-control" />
-                    <span asp-validation-for="Yadr" class="text-danger"></span>
-                </div>
-                <div class="mb-2">
-                    <label class="p-1" for="floatingInput" asp-for="Potok"></label>
-                    <input type="number" asp-for="Potok" class="form-control" />
-                    <span asp-validation-for="Potok" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label class="p-1" for="floatingInput" asp-for="Price"></label>
-                    <input asp-for="Price" class="form-control" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="Yadr"></label>
+                            <input type="number" asp-for="Yadr" class="form-control" />
+                            <span asp-validation-for="Yadr" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <label class="p-1" for="floatingInput" asp-for="Potok"></label>
+                            <input type="number" asp-for="Potok" class="form-control" />
+                            <span asp-validation-for="Potok" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="p-1" for="floatingInput" asp-for="Price"></label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="btn-group btn-group-sm w-100" role="group">
                     <a asp-controller="Processor" asp-action="Index" class="btn btn-sm btn-primary w-100">Вернуться к списку</a>
