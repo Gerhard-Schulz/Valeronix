@@ -21,10 +21,33 @@ namespace Valeronix.Areas.Site.Controllers
             _environment = environment;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    List<ModelOfDevice> modelOfDeviceList = _db.ModelOfDevice.Include(u => u.Creator).ToList();
+        //    return View(modelOfDeviceList);
+        //}
+
+        public IActionResult Index(string sortOrder, string searchString)
         {
-            List<ModelOfDevice> modelOfDeviceList = _db.ModelOfDevice.Include(u => u.Creator).ToList();
-            return View(modelOfDeviceList);
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var modelOfDevice = _db.ModelOfDevice.Include(u => u.Creator).AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                modelOfDevice = modelOfDevice.Where(c => c.Name.Contains(searchString) || c.Creator.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    modelOfDevice = modelOfDevice.OrderByDescending(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+                default:
+                    modelOfDevice = modelOfDevice.OrderBy(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+            }
+            return View(modelOfDevice.ToList());
         }
 
         public IActionResult Add()

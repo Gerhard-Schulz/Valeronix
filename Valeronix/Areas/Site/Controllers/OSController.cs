@@ -15,10 +15,27 @@ namespace Valeronix.Areas.Site.Controllers
         public readonly ApplicationDbContext _db;
         public OSController(ApplicationDbContext db) => _db = db;
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string searchString)
         {
-            List<OS> osList = _db.OS.Include(u => u.Creator).ToList();
-            return View(osList);
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var os = _db.OS.Include(u => u.Creator).AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                os = os.Where(c => c.Name.Contains(searchString) || c.Creator.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    os = os.OrderByDescending(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+                default:
+                    os = os.OrderBy(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+            }
+            return View(os.ToList());
         }
 
         public IActionResult Add()

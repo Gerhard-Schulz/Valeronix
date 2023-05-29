@@ -19,7 +19,7 @@ namespace Valeronix.Areas.Site.Controllers
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            var creator = from c in _db.Creator select c;
+            var creator = _db.Creator.AsQueryable();
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -41,7 +41,7 @@ namespace Valeronix.Areas.Site.Controllers
                     creator = creator.OrderBy(c => c.Name);
                     break;
             }
-            return View(creator);
+            return View(creator.ToList());
         }
 
         public IActionResult Add()

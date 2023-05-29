@@ -15,10 +15,33 @@ namespace Valeronix.Areas.Site.Controllers
         public readonly ApplicationDbContext _db;
         public ProcessorController(ApplicationDbContext db) => _db = db;
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    List<Processor> processorList = _db.Processor.Include(u => u.Creator).ToList();
+        //    return View(processorList);
+        //}
+
+        public IActionResult Index(string sortOrder, string searchString)
         {
-            List<Processor> processorList = _db.Processor.Include(u => u.Creator).ToList();
-            return View(processorList);
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var processor = _db.Processor.Include(u => u.Creator).AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                processor = processor.Where(c => c.Name.Contains(searchString) || c.Creator.Name.Contains(searchString) || c.Yadr.ToString().Contains(searchString) || c.Potok.ToString().Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    processor = processor.OrderByDescending(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+                default:
+                    processor = processor.OrderBy(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+            }
+            return View(processor.ToList());
         }
 
         public IActionResult Add()
