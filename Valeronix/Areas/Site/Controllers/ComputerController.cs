@@ -15,15 +15,23 @@ namespace Valeronix.Areas.Site.Controllers
         public readonly ApplicationDbContext _db;
         public ComputerController(ApplicationDbContext db) => _db = db;
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-            List<Computer> computerList = _db.Computer.
+            var computerList = _db.Computer.
                 Include(u => u.ModelOfDevice).ThenInclude(u => u.Creator).
                 Include(u => u.VideoCard).ThenInclude(u => u.Creator).
                 Include(u => u.OS).ThenInclude(u => u.Creator).
-                Include(u => u.Processor).ThenInclude(u => u.Creator).ToList();
+                Include(u => u.Processor).ThenInclude(u => u.Creator).AsQueryable();
 
-            return View(computerList);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                computerList = computerList.Where(c => c.Adapter.Contains(searchString) || c.MemoryType.Contains(searchString) || c.MemoryVolume.Contains(searchString) ||
+                c.OzuMemory.Contains(searchString) || c.OS.Creator.Name.Contains(searchString) || c.OS.Name.Contains(searchString) || 
+                c.Processor.Creator.Name.Contains(searchString) || c.VideoCard.Creator.Name.Contains(searchString) || c.VideoCard.Name.Contains(searchString) ||
+                c.ModelOfDevice.Name.Contains(searchString) || c.ModelOfDevice.Creator.Name.Contains(searchString) || c.Price.ToString().Contains(searchString));
+            }
+
+            return View(computerList.ToList());
         }
 
         public IActionResult Add()

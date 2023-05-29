@@ -15,10 +15,33 @@ namespace Valeronix.Areas.Site.Controllers
         public readonly ApplicationDbContext _db;
         public VideoCardController(ApplicationDbContext db) => _db = db;
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    List<VideoCard> videoCardList = _db.VideoCard.Include(u => u.Creator).ToList();
+        //    return View(videoCardList);
+        //}
+
+        public IActionResult Index(string sortOrder, string searchString)
         {
-            List<VideoCard> videoCardList = _db.VideoCard.Include(u => u.Creator).ToList();
-            return View(videoCardList);
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var videoCard = _db.VideoCard.Include(u => u.Creator).AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                videoCard = videoCard.Where(c => c.Name.Contains(searchString) || c.Creator.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    videoCard = videoCard.OrderByDescending(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+                default:
+                    videoCard = videoCard.OrderBy(c => c.Creator.Name).ThenBy(c => c.Name);
+                    break;
+            }
+            return View(videoCard.ToList());
         }
 
         public IActionResult Add()
